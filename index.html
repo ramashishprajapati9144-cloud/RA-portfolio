@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ram Ashish Prajapati - Official Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fonts: Poppins (English) & Noto Sans (Hindi) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- 3D Tilt Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Poppins', 'sans-serif'],
+                        hindi: ['Noto Sans Devanagari', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            light: '#8B5CF6',
+                            dark: '#6D28D9',
+                            accent: '#3B82F6'
+                        },
+                        facebook: '#1877F2'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'gradient-x': 'gradient-x 5s ease infinite',
+                        'blob': 'blob 7s infinite',
+                        'fade-up': 'fadeUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: #f3f4f6;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(34, 197, 94, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            background-size: 200% 200%;
+            animation: bg-shift 15s ease infinite;
+        }
+
+        @keyframes bg-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered Delays */
+        .stagger-1 { transition-delay: 100ms; }
+        .stagger-2 { transition-delay: 200ms; }
+        .stagger-3 { transition-delay: 300ms; }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            /* Transitions handled by Tilt.js */
+        }
+        
+        /* Typing Cursor */
+        .typing::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Social Gradients */
+        .btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+        .btn-facebook { background: #1877F2; color: white; }
+
+        /* Hindi Font */
+        .font-hindi { font-family: 'Noto Sans Devanagari', sans-serif !important; }
+
+        /* Skills Toggle */
+        #skills-container {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-10px);
+        }
+        #skills-container.show {
+            max-height: 1200px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 2rem;
+        }
+
+        /* Star Rating */
+        .star-rating i {
+            transition: transform 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .star-rating i:hover { transform: scale(1.2); }
+        .star-rating i.active { color: #fbbf24; }
+
+        /* Dark Mode Input Fixes */
+        .dark .form-input {
+            background-color: #1e293b;
+            color: #ffffff;
+            border-color: #334155;
+        }
+        .dark .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Dark Mode Global */
+        .dark body { background-color: #0f172a; background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%); }
+        .dark .glass-card { background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.05); color: white; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col transition-colors duration-500 overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 glass-card !bg-white/80 dark:!bg-slate-900/80 !border-b !border-white/20 !shadow-sm !rounded-none backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <span class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-light to-brand-accent cursor-pointer hover:opacity-80 transition">
+                Ram Ashish
+            </span>
+            
+            <div class="flex items-center gap-3">
+                <button id="lang-btn" class="px-4 py-1.5 rounded-full border border-gray-300 dark:border-gray-600 font-bold text-sm bg-white/50 dark:bg-black/50 hover:bg-brand-light hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105">
+                    EN / HI
+                </button>
+
+                <button id="theme-btn" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 flex items-center justify-center hover:scale-110 hover:rotate-45 transition-all duration-300 shadow-md">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-32 pb-12 px-4 flex flex-col items-center justify-center max-w-7xl mx-auto w-full z-10">
+        
+        <!-- Hero Section -->
+        <div class="text-center w-full max-w-4xl mb-24 reveal active">
+            <div class="inline-block px-5 py-2 rounded-full bg-purple-100 dark:bg-purple-900/30 text-brand-dark dark:text-purple-300 text-sm font-bold mb-6 tracking-wide animate-float shadow-lg border border-purple-200 dark:border-purple-800">
+                <span data-en="👋 Welcome to my Portfolio" data-hi="👋 मेरे पोर्टफोलियो में आपका स्वागत है">👋 Welcome to my Portfolio</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-black mb-6 leading-tight text-gray-900 dark:text-white tracking-tight">
+                <span data-en="Hi, I'm" data-hi="नमस्ते, मैं हूँ">Hi, I'm</span> 
+                <br class="md:hidden">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-light via-pink-500 to-brand-accent animate-gradient-x">Ram Ashish</span>
+            </h1>
+            
+            <h2 class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 font-medium mb-8">
+                <span class="opacity-80" data-en="Full Name: " data-hi="पूरा नाम: ">Full Name: </span> <span class="text-gray-900 dark:text-white font-semibold">Ram Ashish Prajapati</span>
+                <br>
+                <span class="text-brand-accent font-bold mt-2 inline-block typing" id="typing-text" data-en="Class 9 Student & Future Data Analyst" data-hi="कक्षा 9 का छात्र और भविष्य का डेटा एनालिस्ट"></span>
+            </h2>
+
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed" 
+               data-en="Exploring the world of technology with curiosity. Passionate about App Development, Hardware, and Computer Logic."
+               data-hi="जिज्ञासा के साथ तकनीक की दुनिया की खोज। ऐप डेवलपमेंट, हार्डवेयर और कंप्यूटर लॉजिक में रुचि रखता हूँ।">
+                Exploring the world of technology with curiosity. Passionate about App Development, Hardware, and Computer Logic.
+            </p>
+
+            <!-- Social Buttons (Fixed Facebook Link) -->
+            <div class="flex flex-wrap justify-center gap-5 mb-12 relative z-20">
+                <a href="https://www.instagram.com/mr.ram_ashish914" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-8 py-4 rounded-full btn-instagram font-bold text-lg shadow-xl hover:shadow-pink-500/40 hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+                    <i class="fab fa-instagram text-2xl group-hover:rotate-12 transition"></i> 
+                    <span>Instagram</span>
+                </a>
+                
+                <!-- Facebook Button Fixed -->
+                <a href="https://www.facebook.com/share/1Lsua6GxYD/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-8 py-4 rounded-full btn-facebook font-bold text-lg shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+                    <i class="fab fa-facebook text-2xl group-hover:-rotate-12 transition"></i> 
+                    <span>Facebook</span>
+                </a>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-5">
+                <a href="#projects" class="px-8 py-4 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-black font-bold text-lg hover:transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
+                    <span data-en="See My Work" data-hi="मेरा काम देखें">See My Work</span>
+                </a>
+                <a href="#contact" class="px-8 py-4 rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white border border-gray-200 dark:border-slate-700 font-bold text-lg hover:bg-gray-50 dark:hover:bg-slate-700 hover:-translate-y-1 transition-all duration-300">
+                    <span data-en="Contact Me" data-hi="संपर्क करें">Contact Me</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Projects Section (Apps) -->
+        <div id="projects" class="w-full mb-32 reveal">
+            <div class="flex items-center justify-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white relative inline-block">
+                    <span data-en="Featured Applications" data-hi="मेरे प्रोजेक्ट्स">Featured Applications</span>
+                    <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-24 h-1.5 bg-brand-light rounded-full"></div>
+                </h2>
+            </div>
+
+            <!-- Grid Layout for 5 Items -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000 max-w-7xl mx-auto px-4">
+                
+                <!-- App 1: Actually Brain 9 -->
+                <div class="glass-card rounded-[2rem] p-8 border-t-4 border-blue-400 stagger-1 project-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+                    <div class="flex justify-between items-start mb-5">
+                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Actually Brain 9</h3>
+                         <span class="bg-blue-100 text-blue-600 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-sm">APP / BLOG</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-en="A dedicated application for science and technology lovers. Exploring the unknown world of knowledge." data-hi="विज्ञान और तकनीक प्रेमियों के लिए एक खास एप्लिकेशन। ज्ञान की दुनिया की खोज।">
+                        A dedicated application for science and technology lovers...
+                    </p>
+                    <a href="https://actuallybrain9.blogspot.com/?m=" target="_blank" class="w-full block py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold text-center hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+                        <span data-en="Try Now" data-hi="अभी चलाएं">Try Now</span> <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- App 2: Hidden Calculator -->
+                <div class="glass-card rounded-[2rem] p-8 border-t-4 border-pink-400 stagger-2 project-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+                    <div class="flex justify-between items-start mb-5">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Hidden Calculator</h3>
+                        <span class="bg-pink-100 text-pink-600 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-sm">PRIVACY</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-en="A smart privacy tool disguised as a simple calculator to keep your personal data safe and secure." data-hi="एक स्मार्ट गोपनीयता टूल जो आपके डेटा को सुरक्षित रखने के लिए कैलकुलेटर के रूप में है।">
+                        A smart privacy tool disguised as a simple calculator...
+                    </p>
+                    <a href="https://hiddencalculatorr.blogspot.com/?m=1" target="_blank" class="w-full block py-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold text-center hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+                        <span data-en="Try App" data-hi="ऐप चलाएं">Try App</span> <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- App 3: Smart Note -->
+                <div class="glass-card rounded-[2rem] p-8 border-t-4 border-yellow-400 stagger-3 project-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+                    <div class="flex justify-between items-start mb-5">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Smart Note</h3>
+                        <span class="bg-yellow-100 text-yellow-600 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-sm">NOTES</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-en="A smart and simple note-taking app to organize your daily tasks and ideas efficiently." data-hi="अपने दैनिक कार्यों और विचारों को कुशलतापूर्वक व्यवस्थित करने के लिए एक स्मार्ट और सरल ऐप।">
+                        A smart and simple note-taking app to organize tasks...
+                    </p>
+                    <a href="https://smartnotes10.blogspot.com/?m=1" target="_blank" class="w-full block py-3.5 rounded-xl bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold text-center hover:shadow-lg hover:shadow-yellow-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+                        <span data-en="Try App" data-hi="ऐप चलाएं">Try App</span> <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- App 4: RA Flappy Bird -->
+                <div class="glass-card rounded-[2rem] p-8 border-t-4 border-orange-500 stagger-1 project-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+                    <div class="flex justify-between items-start mb-5">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">RA Flappy Bird</h3>
+                        <span class="bg-orange-100 text-orange-600 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-sm">GAME</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-en="Classic fun with multiple themes like Space and a feature to upload your own image to play." data-hi="स्पेस जैसी कई थीम्स और अपनी फोटो लगाकर खेलने की सुविधा के साथ क्लासिक गेम।">
+                        Classic fun with multiple themes like Space and custom image feature.
+                    </p>
+                    <a href="https://raflappybird.blogspot.com/?m=1" target="_blank" class="w-full block py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-center hover:shadow-lg hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+                        <span data-en="Play Now" data-hi="अभी खेलें">Play Now</span> <i class="fas fa-gamepad ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- App 5: RA Snake Game -->
+                <div class="glass-card rounded-[2rem] p-8 border-t-4 border-green-500 stagger-2 project-card" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.4" data-tilt-scale="1.05">
+                    <div class="flex justify-between items-start mb-5">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">RA Snake Game</h3>
+                        <span class="bg-green-100 text-green-600 text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-sm">GAME</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed" data-en="Classic Snake game with swipe controls, custom themes, and image upload features. Works on mobile & PC." data-hi="स्वाइप कंट्रोल, कस्टम थीम और इमेज अपलोड फीचर्स के साथ क्लासिक स्नेक गेम। मोबाइल और पीसी पर उपलब्ध।">
+                        Classic Snake game with swipe controls, custom themes, and image upload features. Works on mobile & PC.
+                    </p>
+                    <a href="https://rasnakegame.blogspot.com/?m=1" target="_blank" class="w-full block py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-center hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+                        <span data-en="Play Now" data-hi="अभी खेलें">Play Now</span> <i class="fas fa-gamepad ml-2"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="w-full mb-32 text-center reveal">
+            <button onclick="toggleSkills()" id="skill-btn" class="group relative px-10 py-4 rounded-full bg-white dark:bg-slate-800 text-gray-900 dark:text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
+                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-brand-light to-brand-accent opacity-0 group-hover:opacity-10 transition-opacity"></span>
+                <span class="relative flex items-center gap-3">
+                    <i class="fas fa-laptop-code text-brand-light"></i> 
+                    <span data-en="View My Technical Skills" data-hi="मेरे तकनीकी कौशल देखें">View My Technical Skills</span>
+                    <i class="fas fa-chevron-down transition-transform duration-300" id="skill-icon"></i>
+                </span>
+            </button>
+
+            <!-- Hidden Container -->
+            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left max-w-6xl mx-auto">
+                <!-- Skill 1 -->
+                <div class="glass-card p-8 rounded-3xl text-center hover:scale-105 transition duration-300 mt-6" data-tilt>
+                    <div class="w-16 h-16 mx-auto bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm"><i class="fas fa-mobile-alt"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800 dark:text-white" data-en="App Dev" data-hi="ऐप डेवलपमेंट">App Dev</h3>
+                    <p class="text-sm text-gray-500">Android & Mobile Apps</p>
+                </div>
+                <!-- Skill 2 -->
+                <div class="glass-card p-8 rounded-3xl text-center hover:scale-105 transition duration-300 mt-6" data-tilt>
+                    <div class="w-16 h-16 mx-auto bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm"><i class="fas fa-chart-pie"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800 dark:text-white" data-en="Data Analysis" data-hi="डेटा एनालिसिस">Data Analysis</h3>
+                    <p class="text-sm text-gray-500">My Future Goal</p>
+                </div>
+                <!-- Skill 3 -->
+                <div class="glass-card p-8 rounded-3xl text-center hover:scale-105 transition duration-300 mt-6" data-tilt>
+                    <div class="w-16 h-16 mx-auto bg-pink-100 dark:bg-pink-900/30 text-pink-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm"><i class="fas fa-microchip"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800 dark:text-white" data-en="Hardware" data-hi="हार्डवेयर">Hardware</h3>
+                    <p class="text-sm text-gray-500">Computer Components</p>
+                </div>
+                <!-- Skill 4 -->
+                <div class="glass-card p-8 rounded-3xl text-center hover:scale-105 transition duration-300 mt-6" data-tilt>
+                    <div class="w-16 h-16 mx-auto bg-green-100 dark:bg-green-900/30 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-sm"><i class="fas fa-cogs"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800 dark:text-white" data-en="Settings" data-hi="सेटिंग्स">Settings</h3>
+                    <p class="text-sm text-gray-500">OS Configuration</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RATE MY WORK SECTION -->
+        <div class="w-full max-w-xl mx-auto mb-20 text-center reveal">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white" data-en="Rate My Work" data-hi="मेरे काम को रेट करें">Rate My Work</h2>
+            
+            <div class="glass-card p-8 rounded-[2rem] inline-block shadow-lg">
+                <div class="star-rating flex gap-3 justify-center mb-6 text-4xl text-gray-300">
+                    <i class="fas fa-star" data-val="1"></i>
+                    <i class="fas fa-star" data-val="2"></i>
+                    <i class="fas fa-star" data-val="3"></i>
+                    <i class="fas fa-star" data-val="4"></i>
+                    <i class="fas fa-star" data-val="5"></i>
+                </div>
+                <button onclick="submitRating()" class="px-8 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold shadow-md hover:shadow-lg transform hover:-translate-y-1 transition active:scale-95">
+                    <span data-en="Submit Rating" data-hi="रेटिंग जमा करें">Submit Rating</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div id="contact" class="w-full max-w-3xl reveal">
+            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-200 dark:bg-purple-900/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-float"></div>
+
+                <div class="relative z-10">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3" data-en="Contact Me" data-hi="संपर्क करें">Contact Me</h2>
+                        <p class="text-gray-500 dark:text-gray-400" data-en="Have a question? Fill this form!" data-hi="कोई सवाल है? यह फॉर्म भरें!">Have a question? Fill this form!</p>
+                    </div>
+
+                    <form id="contactForm" onsubmit="sendEmail(event)" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1" data-en="Your Name" data-hi="आपका नाम">Your Name</label>
+                                <input type="text" id="name" required class="form-input w-full px-5 py-4 rounded-xl text-gray-900 dark:text-white shadow-sm focus:ring-2 focus:ring-brand-light placeholder-gray-400" data-en-place="e.g., Rahul Kumar" data-hi-place="जैसे, राहुल कुमार" placeholder="e.g., Rahul Kumar">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1" data-en="Phone Number" data-hi="फोन नंबर">Phone Number</label>
+                                <input type="tel" id="phone" required class="form-input w-full px-5 py-4 rounded-xl text-gray-900 dark:text-white shadow-sm focus:ring-2 focus:ring-brand-light placeholder-gray-400" placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1" data-en="Message" data-hi="संदेश">Message</label>
+                            <textarea id="message" rows="4" required class="form-input w-full px-5 py-4 rounded-xl text-gray-900 dark:text-white shadow-sm focus:ring-2 focus:ring-brand-light placeholder-gray-400" data-en-place="Write something here..." data-hi-place="यहाँ कुछ लिखें..." placeholder="Write something here..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-light to-brand-dark text-white font-bold text-lg shadow-lg hover:shadow-brand-light/50 hover:-translate-y-1 transition-all duration-300 active:scale-95">
+                            <i class="fas fa-paper-plane mr-2"></i> <span data-en="Send Message" data-hi="संदेश भेजें">Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-20 border-t border-gray-200 dark:border-gray-800 w-full bg-white/50 dark:bg-black/20 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto py-12 px-4 text-center">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6" data-en="Connect with me" data-hi="मुझसे जुड़ें">Connect with me</h3>
+            <!-- Footer Links Fixed -->
+            <div class="flex justify-center gap-6 mb-8 relative z-20">
+                <a href="https://www.instagram.com/mr.ram_ashish914" target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full bg-white dark:bg-slate-800 shadow-md flex items-center justify-center text-pink-600 text-2xl hover:scale-110 hover:rotate-6 transition-all duration-300"><i class="fab fa-instagram"></i></a>
+                
+                <a href="https://www.facebook.com/share/1Lsua6GxYD/" target="_blank" rel="noopener noreferrer" class="w-14 h-14 rounded-full bg-white dark:bg-slate-800 shadow-md flex items-center justify-center text-blue-600 text-2xl hover:scale-110 hover:-rotate-6 transition-all duration-300"><i class="fab fa-facebook"></i></a>
+                
+                <a href="mailto:ramashishprajapati674@gmail.com" class="w-14 h-14 rounded-full bg-white dark:bg-slate-800 shadow-md flex items-center justify-center text-red-500 text-2xl hover:scale-110 hover:rotate-6 transition-all duration-300"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">&copy; 2026 Ram Ashish Prajapati. Made with ❤️ in India.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Initialize 3D Tilt Effect ---
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 15,          
+            speed: 400,       
+            glare: true,      
+            "max-glare": 0.4, 
+            scale: 1.05       
+        });
+
+        // --- Star Rating Logic ---
+        let currentRating = 0;
+        const stars = document.querySelectorAll('.star-rating i');
+        
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                currentRating = this.getAttribute('data-val');
+                updateStars();
+            });
+        });
+
+        function updateStars() {
+            stars.forEach(star => {
+                if(star.getAttribute('data-val') <= currentRating) {
+                    star.classList.add('active');
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('active');
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-yellow-400');
+                }
+            });
+        }
+
+        // --- Rating Submission ---
+        function submitRating() {
+            if(currentRating == 0) {
+                alert("Please select a star rating first! (कृपया स्टार चुनें)");
+                return;
+            }
+            const subject = "Portfolio User Rating";
+            const body = `User has rated your portfolio: ${currentRating} out of 5 Stars.`;
+            
+            window.location.href = `mailto:ramashishprajapati674@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            alert("Opening your email app to send the rating... (रेटिंग भेजने के लिए आपका ईमेल ऐप खुल रहा है...)");
+        }
+
+        // --- Scroll Reveal Logic ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger once on load
+
+        // --- Typewriter Effect ---
+        const typingText = document.getElementById("typing-text");
+        const enText = "Class 9 Student & Future Data Analyst";
+        const hiText = "कक्षा 9 का छात्र और भविष्य का डेटा एनालिस्ट";
+        let isTypingEng = true;
+        
+        function updateTyping() {
+            typingText.innerText = isTypingEng ? enText : hiText;
+        }
+        updateTyping();
+
+        // --- Skills Toggle Logic ---
+        function toggleSkills() {
+            const container = document.getElementById('skills-container');
+            const icon = document.getElementById('skill-icon');
+            
+            container.classList.toggle('show');
+            if(container.classList.contains('show')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // --- Email Logic ---
+        function sendEmail(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            window.location.href = `mailto:ramashishprajapati674@gmail.com?subject=Portfolio Contact from ${name}&body=Name: ${name}%0D%0APhone: ${phone}%0D%0A%0D%0AMessage:%0D%0A${message}`;
+        }
+
+        // --- Theme Toggle ---
+        const themeBtn = document.getElementById('theme-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        themeBtn.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark'); html.classList.add('light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.remove('light'); html.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            html.classList.add('dark'); themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // --- Language Toggle Logic ---
+        const langBtn = document.getElementById('lang-btn');
+        let isEng = true;
+
+        langBtn.addEventListener('click', () => {
+            isEng = !isEng;
+            isTypingEng = isEng;
+            updateTyping(); // Update typed text instantly
+
+            const body = document.body;
+            // Toggle Hindi Font Family
+            if (!isEng) {
+                body.classList.add('font-hindi');
+            } else {
+                body.classList.remove('font-hindi');
+            }
+
+            // Toggle Text Content
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.innerText = isEng ? el.getAttribute('data-en') : el.getAttribute('data-hi');
+            });
+            // Toggle Placeholders
+            document.querySelectorAll('[data-en-place]').forEach(el => {
+                el.placeholder = isEng ? el.getAttribute('data-en-place') : el.getAttribute('data-hi-place');
+            });
+        });
+    </script>
+</body>
+</html>
